@@ -2,9 +2,12 @@
 @using BlazingPizza.Data
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@using BlazingPizza.Services
+@inject OrderState OrderState
 
 <div class="main">
     <h1>Blazing Pizzas</h1>
+
     @if (specials == null)
     {
         <p>Loading pizzas...</p>
@@ -14,19 +17,34 @@
         <ul class="pizza-cards">
             @foreach (var special in specials)
             {
-                <li style="background-image: url('@special.ImageUrl')">
-                    <PizzaCard Special="special" />
+                <li @onclick="@(() => OrderState.ShowConfigurePizzaDialog(special))"
+                    style="background-image: url('@special.ImageUrl')">
+
+                    <div class="pizza-info">
+                        <span class="title">@special.Name</span>
+                        @special.Description
+                        <span class="price">@special.GetFormattedBasePrice()</span>
+                    </div>
+
                 </li>
             }
         </ul>
+        @if (OrderState.ShowingConfigureDialog)
+        {
+            <ConfigurePizzaDialog Pizza="OrderState.ConfiguringPizza" OnCancel="OrderState.CancelConfigurePizzaDialog"
+                                  OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
+        }
     }
+
 </div>
 
 @code {
     List<PizzaSpecial>? specials;
 
+
     protected override async Task OnInitializedAsync()
     {
         specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
     }
+
 }
