@@ -9,13 +9,16 @@ public class OrderState
     public Pizza? ConfiguringPizza { get; private set; }
     public Order Order { get; private set; } = new Order();
 
+
+
     public void ShowConfigurePizzaDialog(PizzaSpecial special)
     {
         ConfiguringPizza = new Pizza()
         {
             Special = special,
             SpecialId = special.Id,
-            Size = Pizza.DefaultSize
+            Size = Pizza.DefaultSize,
+            Toppings = new List<PizzaTopping>()
         };
 
         ShowingConfigureDialog = true;
@@ -42,5 +45,10 @@ public class OrderState
     {
         Order.Pizzas.Remove(pizza);
     }
+    public void ResetOrder()
+    {
+        Order = new Order();
+    }
+
 
 }
