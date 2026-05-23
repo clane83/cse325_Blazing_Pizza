@@ -15,11 +15,7 @@
             @foreach (var special in specials)
             {
                 <li style="background-image: url('@special.ImageUrl')">
-                    <div class="pizza-info">
-                        <span class="title">@special.Name</span>
-                        @special.Description
-                        <span class="price">@special.GetFormattedBasePrice()</span>
-                    </div>
+                    <PizzaCard Special="special" />
                 </li>
             }
         </ul>
