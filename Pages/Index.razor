@@ -1,6 +1,7 @@
 @page "/"
 @using BlazingPizza.Data
-@inject PizzaService PizzaSvc
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 
 <div class="main">
     <h1>Blazing Pizzas</h1>
@@ -30,6 +31,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        specials = await PizzaSvc.GetPizzasAsync();
+        specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
     }
 }
