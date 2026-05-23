@@ -1,0 +1,35 @@
+@page "/"
+@using BlazingPizza.Data
+@inject PizzaService PizzaSvc
+
+<div class="main">
+    <h1>Blazing Pizzas</h1>
+    @if (specials == null)
+    {
+        <p>Loading pizzas...</p>
+    }
+    else
+    {
+        <ul class="pizza-cards">
+            @foreach (var special in specials)
+            {
+                <li style="background-image: url('@special.ImageUrl')">
+                    <div class="pizza-info">
+                        <span class="title">@special.Name</span>
+                        @special.Description
+                        <span class="price">@special.GetFormattedBasePrice()</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    List<PizzaSpecial>? specials;
+
+    protected override async Task OnInitializedAsync()
+    {
+        specials = await PizzaSvc.GetPizzasAsync();
+    }
+}
