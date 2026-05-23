@@ -14,26 +14,34 @@
         <img src="img/pizza-slice.svg" />
         <div>Get Pizza</div>
     </NavLink>
+    <NavLink href="myorders" class="nav-tab">
+        <img src="img/bike.svg" />
+        <div>My Orders</div>
+    </NavLink>
 </div>
 
 <div class="main">
     <h1>Checkout</h1>
 
-    <h4>Review order</h4>
+    <div class="checkout-cols">
+        <div class="checkout-order-details">
+            <h4>Review order</h4>
 
-    @foreach (var pizza in Order.Pizzas)
-    {
-        <p>
+            @foreach (var pizza in Order.Pizzas)
+            {
+                <p>
             <strong>
                 @(pizza.Size)" @pizza.Special.Name
                 (@pizza.GetFormattedTotalPrice())
             </strong>
-        </p>
-    }
+                </p>
+            }
 
-    <p>
-        <strong>Total price: @Order.GetFormattedTotalPrice()</strong>
-    </p>
+            <p>
+                <strong>Total price: @Order.GetFormattedTotalPrice()</strong>
+            </p>
+        </div>
+    </div>
 
     <button class="checkout-button btn btn-warning" @onclick="PlaceOrder" disabled="@isSubmitting">
         Place order
@@ -57,6 +65,6 @@
 
         OrderState.ResetOrder();
 
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/myorders");
     }
 }
